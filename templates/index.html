@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerador de Senha</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        label {
+            display: block;
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 18px;
+        }
+        input[type="number"] {
+            padding: 12px;
+            margin-bottom: 30px;
+            width: calc(100% - 24px);
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+        }
+        button {
+            padding: 14px 28px;
+            background-color: #f77e7e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background-color: #ff5252;
+        }
+        #senhaGerada {
+            font-size: 24px;
+            margin-top: 30px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+    </style>
+    <script>
+        function gerarSenha() {
+            var comprimento = document.getElementById("comprimento").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("senhaGerada").innerHTML = "Sua senha gerada é: " + xmlhttp.responseText;
+                }
+            };
+            xmlhttp.open("GET", "/gerar_senha?comprimento=" + comprimento, true);
+            xmlhttp.send();
+        }
+
+        // Integração da tecla "Enter"
+        document.addEventListener("DOMContentLoaded", function() {
+            var input = document.getElementById("comprimento");
+            input.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    gerarSenha();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Senha</h1>
+        <label for="comprimento">Comprimento da Senha:</label>
+        <input type="number" id="comprimento" name="comprimento" min="6" max="20">
+        <br>
+        <button onclick="gerarSenha()">Gerar Senha</button>
+        <br>
+        <p id="senhaGerada"></p>
+    </div>
+</body>
+</html>
